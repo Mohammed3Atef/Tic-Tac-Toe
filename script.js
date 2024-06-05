@@ -4,10 +4,13 @@ function game(id) {
     let square = document.getElementById(id);
     if (turn === "x" && square.innerHTML === '') {
         square.innerHTML = "X";
+        square.style.color = "white"
         turn = "o";
         document.getElementById("player").innerHTML = ' " O " ';
     } else if (turn === 'o' && square.innerHTML === "") {
         square.innerHTML = "O";
+        square.style.color = "blue"
+
         turn = "x";
         document.getElementById("player").innerHTML = ' " X " ';
     }
@@ -28,9 +31,15 @@ function checkWinner() {
     for (const combo of checks) {
         const [a, b, c] = combo;
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            document.getElementById("overlay").style.display = "flex";
-            document.getElementById("final-result").innerHTML = squares[a];
-            resetGame();
+            setTimeout(() => {
+                document.getElementById("overlay").style.display = "flex";
+                document.getElementById("result").innerHTML = `Player ${squares[a]} wins`;
+            }, 800);
+            document.getElementById(a + 1).style.cssText = "background-color:black; color:red;";
+            document.getElementById(b + 1).style.cssText = "background-color:black; color:red;";
+            document.getElementById(c + 1).style.cssText ="background-color:black; color:red;";
+
+            
             return;
         }
     }
@@ -43,6 +52,7 @@ function checkWinner() {
 function resetGame() {
     for (let i = 1; i <= 9; i++) {
         document.getElementById(i.toString()).innerHTML = '';
+        document.getElementById(i.toString()).style.background = ''; 
     }
     turn = "x";
     document.getElementById("player").innerHTML = ' " X " ';
